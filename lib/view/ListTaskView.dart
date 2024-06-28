@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/provider/TaskModel.dart';
+import 'package:my_first_flutter_app/widget/ListTasksWidget.dart';
 import 'package:provider/provider.dart';
 
 class ListTaskView extends StatefulWidget {
@@ -12,42 +13,33 @@ class ListTaskView extends StatefulWidget {
 class _ListTaskViewState extends State<ListTaskView> {
   @override
   Widget build(BuildContext context) {
-      return Consumer<TaskModel>(
-        builder: (context, model, child) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('List Tasks'),
+    return DefaultTabController(
+      length: 5,
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('List Tasks'),
+            bottom: const TabBar(
+              isScrollable: true,
+              tabs: [
+                Tab(text: "All Tasks",),
+                Tab(text: "Today",),
+                Tab(text: "tomorrow",),
+                Tab(text: "This Week",),
+                Tab(text: "Next Week",),
+
+              ],
             ),
-            body: ListView.builder(
-              itemCount:model.todoTasks.length,
-              itemBuilder: (BuildContext context ,int index){
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 225, 225, 225),
-                        border: Border.all(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        width: 1
-                        ),
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: CheckboxListTile(
-                        title: Text(model.todoTasks[index].title),
-                        subtitle: Text(model.todoTasks[index].deadline.toString().substring(0,10)),
-                        value: model.todoTasks[index].status,
-                        onChanged: (bool? value) {  
-                          print(model.todoTasks[index].status);
-                          model.markAsDone(index);
-                        }, 
-                        controlAffinity: ListTileControlAffinity.leading,
-                      ),
-                    ),
-                  );
-            }
-            ),
-          );
-       }
+          ),
+          body: TabBarView(
+            children: [
+              ListTasksWidget(),
+              ListTasksWidget(),
+              ListTasksWidget(),
+              ListTasksWidget(),
+              ListTasksWidget(),
+
+            ],
+          )),
     );
   }
 }
