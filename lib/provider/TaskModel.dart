@@ -1,24 +1,83 @@
+import 'package:dart_date/dart_date.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_flutter_app/model/Task.dart';
+import 'package:my_first_flutter_app/library/globals.dart' as globals;
 
-class TaskModel extends ChangeNotifier{
+class TaskModel extends ChangeNotifier {
+  final Map<String, List<Task>> _todoTasks = {
+    globals.Late: [
+      Task("Task 1", false, "Create Provider",
+          DateTime.now().add(Duration(days: 1))),
+    ],
+    globals.today: [
+      Task("Task 1", false, "Create Provider",
+          DateTime.now().add(Duration(days: 1))),
+    ],
+    globals.tomorrow: [
+      Task("Task 1", false, "Create Provider",
+          DateTime.now().add(Duration(days: 1))),
+    ],
+    globals.thisWeek: [
+      Task("Task 1", false, "Create Provider",
+          DateTime.now().add(Duration(days: 1))),
+    ],
+    globals.nextWeek: [
+      Task("Task 1", false, "Create Provider",
+          DateTime.now().add(Duration(days: 1))),
+    ],
+    globals.thisMonth: [
+      Task("Task 1", false, "Create Provider",
+          DateTime.now().add(Duration(days: 1))),
+    ],
+    globals.Later: [
+      Task("Task 1", false, "Create Provider",
+          DateTime.now().add(Duration(days: 1))),
+    ],
+  };
 
-  final List<Task>_todoTasks=[
-    Task("Task 1",false,"Create Provider",DateTime.now().add(Duration(days: 1))),
-    Task("Task 2",false,"Create Provider",DateTime.now().subtract(Duration(days: 1))),
-    Task("Task 3",false,"Create Provider",DateTime.now().add(Duration(days: 7))),
-    Task("Task 4",false,"Create Provider",DateTime.now().add(Duration(days: 2))),
+  Map<String, List<Task>> get todoTasks => _todoTasks;
+  void add(Task _task) {
+    String _key = guessTodayKEYfromDATE(_task.deadline);
+    if (_todoTasks.containsKey(_key)) {
+      _todoTasks[_key]!.add(_task);
+      notifyListeners();
+    }
+  }
 
-  ];
+  int countTaskByDate(DateTime, _datetime) {
+    String _key = guessTodayKEYfromDATE(_datetime);
+    if (_todoTasks.containsKey(_key)) {
+      _todoTasks[_key]!
+          .where((task) =>
+              task.deadline.day == _datetime.day &&
+              task.deadline.month == _datetime.month &&
+              task.deadline.year == _datetime.year)
+          .length;
+    }
+    return 0;
+  }
 
-  List<Task> get todoTasks => _todoTasks;
-  void add(Task _task){
-    _todoTasks.add(_task);
+  void markAsDone(String key, int index) {
+    _todoTasks[key]![index].status = true;
+
     notifyListeners();
   }
-  void markAsDone(int index){
-      _todoTasks[index].status=true;
 
-    notifyListeners();
+  String guessTodayKEYfromDATE(DateTime deadline) {
+    if (deadline.isPast && !deadline.isToday) {
+      return globals.Late;
+    } else if (deadline.isToday) {
+      return globals.today;
+    } else if (deadline.isTomorrow) {
+      return globals.tomorrow;
+    } else if (deadline.getWeek == DateTime.now().getWeek) {
+      return globals.thisWeek;
+    } else if (deadline.getWeek == DateTime.now().getWeek + 1) {
+      return globals.nextWeek;
+    } else if (deadline.isThisMonth) {
+      return globals.thisMonth;
+    } else {
+      return globals.Later;
+    }
   }
 }
