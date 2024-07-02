@@ -39,7 +39,14 @@ class _ListTaskViewState extends State<ListTaskView> {
               ListTasksWidget(),
 
             ],
-          )),
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushNamed(context,"AddTask");
+            }
+          ),
+          ),
     );
   }
 }

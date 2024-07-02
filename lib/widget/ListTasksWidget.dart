@@ -12,7 +12,7 @@ class ListTasksWidget extends StatelessWidget {
           itemCount: model.todoTasks.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: Container(
                 decoration: BoxDecoration(
                     color: Color.fromARGB(255, 225, 225, 225),
