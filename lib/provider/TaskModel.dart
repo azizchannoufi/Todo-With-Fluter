@@ -5,32 +5,32 @@ import 'package:my_first_flutter_app/library/globals.dart' as globals;
 
 class TaskModel extends ChangeNotifier {
   final Map<String, List<Task>> _todoTasks = {
-    globals.Late: [
+    globals.late: [
       Task("Task 1", false, "Create Provider",
           DateTime.now().add(Duration(days: 1))),
     ],
     globals.today: [
-      Task("Task 1", false, "Create Provider",
+      Task("Task today", false, "Create Provider",
           DateTime.now().add(Duration(days: 1))),
     ],
     globals.tomorrow: [
-      Task("Task 1", false, "Create Provider",
+      Task("Task tomorrow", false, "Create Provider",
           DateTime.now().add(Duration(days: 1))),
     ],
     globals.thisWeek: [
-      Task("Task 1", false, "Create Provider",
+      Task("Task thisWeek", false, "Create Provider",
           DateTime.now().add(Duration(days: 1))),
     ],
     globals.nextWeek: [
-      Task("Task 1", false, "Create Provider",
+      Task("Task nextWeek", false, "Create Provider",
           DateTime.now().add(Duration(days: 1))),
     ],
     globals.thisMonth: [
-      Task("Task 1", false, "Create Provider",
+      Task("Task thisMonth", false, "Create Provider",
           DateTime.now().add(Duration(days: 1))),
     ],
-    globals.Later: [
-      Task("Task 1", false, "Create Provider",
+    globals.later: [
+      Task("Task later", false, "Create Provider",
           DateTime.now().add(Duration(days: 1))),
     ],
   };
@@ -65,19 +65,19 @@ class TaskModel extends ChangeNotifier {
 
   String guessTodayKEYfromDATE(DateTime deadline) {
     if (deadline.isPast && !deadline.isToday) {
-      return globals.Late;
+      return globals.late;
     } else if (deadline.isToday) {
       return globals.today;
     } else if (deadline.isTomorrow) {
       return globals.tomorrow;
-    } else if (deadline.getWeek == DateTime.now().getWeek) {
+    } else if (deadline.getWeek == DateTime.now().getWeek && deadline.year==DateTime.now().year) {
       return globals.thisWeek;
-    } else if (deadline.getWeek == DateTime.now().getWeek + 1) {
+    } else if (deadline.getWeek == DateTime.now().getWeek + 1 && deadline.year==DateTime.now().year) {
       return globals.nextWeek;
     } else if (deadline.isThisMonth) {
       return globals.thisMonth;
     } else {
-      return globals.Later;
+      return globals.later;
     }
   }
 }
