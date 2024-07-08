@@ -38,3 +38,6 @@ const Map<String, String> taskCategoryNames = {
   thisMonth: "This Month",
   later: "Later"
 };
+//
+const todoTasksKey="todo_tasks";
+const doneTasksKey="done_tasks";
